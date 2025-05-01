@@ -1,68 +1,79 @@
 :root {
-  --bradesco-red: #cc0000;      /* Vermelho Bradesco */
+  --bradesco-red: #cc0000;         /* Cor institucional */
   --bradesco-gray: #F5F5F5;
   --bradesco-dark: #333333;
-  --bradesco-dark-red: #990000;  /* Variante para hover */
+  --bradesco-dark-red: #990000;     /* Variante para hover */
+  --font-main: 'Segoe UI', Arial, sans-serif;
+  --transition-speed: 0.3s;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 body {
   font-family: 'Segoe UI', Arial, sans-serif;
-  background-color: #f9f9f9;
+  background: url('BEM VINDOS.png') no-repeat center center fixed;
+  background-size: cover;
   margin: 0;
   padding: 0;
   color: var(--bradesco-dark);
 }
 
-/* Layout principal desktop */
+
+/* Layout principal */
 .desktop-container {
   display: grid;
   grid-template-columns: 300px 1fr;
   height: 100vh;
 }
 
-/* Painel lateral de serviços - Estilo Alternativo */
+/* Painel lateral de serviços */
 .services-panel {
-  background-color: var(--bradesco-gray); /* Fundo claro */
-  color: var(--bradesco-dark);
+  background-color: var(--bradesco-gray);
   padding: 30px 20px;
+  border-right: 4px solid var(--bradesco-red);
   box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
-  border-right: 4px solid var(--bradesco-red);  /* Detalhe vermelho na borda */
 }
 
 .services-panel h2 {
-  color: var(--bradesco-red); /* Título em vermelho */
-  border-bottom: 2px solid var(--bradesco-red);
+  color: var(--bradesco-red);
+  margin-bottom: 20px;
   padding-bottom: 10px;
-  margin-top: 0;
+  border-bottom: 2px solid var(--bradesco-red);
 }
 
 .service-card {
-  background-color: white; /* Cartão com fundo branco */
-  border-left: 4px solid var(--bradesco-red); /* Detalhe em vermelho */
+  background-color: #fff;
+  border-left: 4px solid var(--bradesco-red);
   padding: 15px;
   margin-bottom: 15px;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: transform var(--transition-speed), background-color var(--transition-speed);
 }
 
 .service-card:hover {
-  background-color: #f2f2f2; /* Fundo suave no hover */
+  background-color: #f2f2f2;
   transform: translateX(5px);
 }
 
 .service-card h3 {
-  margin-top: 0;
-  color: var(--bradesco-red); /* Texto destacado em vermelho */
+  color: var(--bradesco-red);
+  margin-bottom: 5px;
 }
 
-/* Área principal do chat */
+/* Área principal */
 .main-content {
+  padding: 20px;
+  background-color: #fff;
   display: flex;
   flex-direction: column;
-  padding: 20px;
-  background-color: white;
+  overflow-y: auto;
 }
 
+/* Cabeçalho do perfil */
 .profile-header {
   display: flex;
   align-items: center;
@@ -75,134 +86,40 @@ body {
   width: 80px;
   height: 80px;
   border-radius: 50%;
-  object-fit: cover;
   margin-right: 20px;
+  object-fit: cover;
   border: 3px solid var(--bradesco-red);
 }
 
 .profile-info h1 {
   color: var(--bradesco-red);
-  margin: 0;
+  font-size: 1.8em;
+  margin-bottom: 5px;
 }
 
 .profile-info p {
-  color: var(--bradesco-dark);
-  margin: 5px 0 0;
+  font-size: 0.9em;
+  margin: 2px 0;
 }
 
-/* Chatbox melhorada */
-.chat-container {
-  flex-grow: 1;
+/* Ações rápidas */
+.quick-actions {
+  margin-bottom: 20px;
   display: flex;
-  flex-direction: column;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  overflow: hidden;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  gap: 15px;
 }
 
-.chat-header {
-  background-color: var(--bradesco-red);
-  color: white;
-  padding: 15px 20px;
-  font-weight: bold;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.chat-messages {
-  flex-grow: 1;
-  padding: 20px;
-  overflow-y: auto;
-  background-color: var(--bradesco-gray);
-  height: 400px;
-}
-
-.message {
-  margin-bottom: 15px;
-  max-width: 70%;
-  padding: 12px 15px;
-  border-radius: 8px;
-  line-height: 1.4;
-}
-
-/* Mensagem do usuário (fundo cinza mais escuro) */
-.user-message {
-  background-color: #e0e0e0;
-  color: var(--bradesco-dark);
-  margin-left: auto;
-  border-top-right-radius: 0;
-}
-
-/* Mensagem do Bradebot (fundo vermelho) */
-.bot-message {
-  background-color: var(--bradesco-red);
-  color: white;
-  margin-right: auto;
-  border-top-left-radius: 0;
-}
-
-.chat-input {
-  display: flex;
-  padding: 15px;
-  background-color: white;
-  border-top: 1px solid #eee;
-}
-
-.chat-input input {
-  flex-grow: 1;
-  padding: 12px 15px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 16px;
-  outline: none;
-}
-
-.chat-input input:focus {
-  border-color: var(--bradesco-red);
-}
-
-.chat-input button {
-  background-color: var(--bradesco-red);
-  color: white;
-  border: none;
-  padding: 0 20px;
-  margin-left: 10px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-weight: bold;
-  transition: background 0.3s;
-}
-
-.chat-input button:hover {
-  background-color: var(--bradesco-dark-red);
-}
-
-/* Acessibilidade */
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  border: 0;
-}
-
-/* Botões de ação rápidos */
 .quick-action-btn {
   background: linear-gradient(135deg, var(--bradesco-red), var(--bradesco-dark-red));
   border: none;
-  color: white;
+  color: #fff;
   padding: 10px 20px;
-  font-size: 14px;
+  font-size: 0.85em;
   border-radius: 6px;
   text-transform: uppercase;
   letter-spacing: 1px;
   cursor: pointer;
-  transition: transform 0.2s, box-shadow 0.2s;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
@@ -216,7 +133,161 @@ body {
   box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
 }
 
-/* Botões das opções do BRADBOT (layout vertical) */
+/* Chat Container e Trigger */
+.chat-container {
+  position: relative;
+  flex-grow: 1;
+}
+
+.chat-trigger-btn {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  background: var(--bradesco-red);
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 80px; /* Tamanho atualizado */
+  height: 80px; /* Tamanho atualizado */
+  font-size: 1.1em; /* Tamanho da fonte ligeiramente maior para melhor visual */
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: background var(--transition-speed);
+}
+
+.chat-trigger-btn:hover {
+  background: var(--bradesco-dark-red);
+}
+
+/* Caixa de Chat */
+.chat-box {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  height: 500px;
+  max-height: 80vh;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  animation: fadeIn 0.5s ease-out;
+}
+
+/* Cabeçalho do Chat */
+.chat-header {
+  background-color: var(--bradesco-red);
+  color: #fff;
+  padding: 15px 20px;
+  font-weight: bold;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.close-btn {
+  font-size: 1.5em;
+  cursor: pointer;
+}
+
+/* Mensagens do Chat */
+.chat-messages {
+  flex-grow: 1;
+  padding: 20px;
+  overflow-y: auto;
+  background-color: var(--bradesco-gray);
+}
+
+.message {
+  margin-bottom: 15px;
+  max-width: 70%;
+  padding: 12px 15px;
+  border-radius: 8px;
+  line-height: 1.5;
+  word-wrap: break-word;
+}
+
+.user-message {
+  background-color: #e0e0e0;
+  color: var(--bradesco-dark);
+  margin-left: auto;
+  border-top-right-radius: 0;
+}
+
+.bot-message {
+  background-color: var(--bradesco-red);
+  color: #fff;
+  margin-right: auto;
+  border-top-left-radius: 0;
+}
+
+/* Indicador de digitação */
+.typing-indicator {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.typing-dot {
+  width: 8px;
+  height: 8px;
+  background-color: #bbb;
+  border-radius: 50%;
+  animation: blink 1s infinite alternate;
+}
+
+.typing-dot:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.typing-dot:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes blink {
+  from { opacity: 0.3; }
+  to { opacity: 1; }
+}
+
+/* Input do Chat */
+.chat-input {
+  display: flex;
+  padding: 15px;
+  background-color: #fff;
+  border-top: 1px solid #eee;
+}
+
+.chat-input input {
+  flex-grow: 1;
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+  transition: border-color var(--transition-speed);
+  outline: none;
+}
+
+.chat-input input:focus {
+  border-color: var(--bradesco-red);
+}
+
+.chat-input button {
+  background-color: var(--bradesco-red);
+  color: #fff;
+  border: none;
+  padding: 0 20px;
+  margin-left: 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background var(--transition-speed);
+}
+
+.chat-input button:hover {
+  background-color: var(--bradesco-dark-red);
+}
+
+/* Botões de opção (área) */
 .area-btn-container {
   display: flex;
   flex-direction: column;
@@ -225,8 +296,6 @@ body {
 }
 
 .area-btn {
-  width: 100%;
-  max-width: 300px;
   background: linear-gradient(120deg, #2d2d2d, #3f3f3f);
   color: #fff;
   border: none;
@@ -249,5 +318,20 @@ body {
 .area-btn:active {
   transform: scale(0.98);
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+/* Utilitário para leitores de tela */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+}
+
+/* Animação de entrada */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 

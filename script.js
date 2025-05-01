@@ -1,4 +1,4 @@
-// Constantes e configurações
+/// Constantes e configurações
 const BOT_DELAY = 800; // Tempo de resposta simulada
 let atendimentoIniciado = false; // Controle do início do atendimento
 const AREA_DESCRIPTIONS = {
@@ -23,27 +23,17 @@ const domElements = {
   chatBox: document.getElementById('chatBox'),
   chatMessages: document.getElementById('chatMessages'),
   userInput: document.getElementById('userInput'),
-  introMessage: document.getElementById('intro'),
+  introMessage: document.getElementById('intro'), // Caso seja adicionado futuramente
   chatTrigger: document.getElementById('chatBtn')
 };
 
-// Inicialização
 document.addEventListener('DOMContentLoaded', () => {
   loadConversationHistory();
-  // Desativa o clique na imagem do Caio
-if (domElements.imagemCaio) {
-  domElements.imagemCaio.onclick = null;
-  domElements.imagemCaio.style.cursor = 'default';
-}
 });
 
-// Funções principais
+// Exibe ou oculta o chat
 function toggleChat(show) {
-  // Só permite abrir se o atendimento foi iniciado
-  if (!atendimentoIniciado && show) {
-    return; // Impede a abertura
-  }
-
+  if (!atendimentoIniciado && show) return;
   domElements.chatBox.style.display = show ? 'flex' : 'none';
   domElements.chatTrigger.style.display = show ? 'none' : 'flex';
   if (show) domElements.userInput.focus();
@@ -51,10 +41,12 @@ function toggleChat(show) {
 
 function startConversation() {
   if (!atendimentoIniciado) {
-    atendimentoIniciado = true; // Marca como iniciado
-    domElements.introMessage.style.display = 'none';
+    atendimentoIniciado = true;
+    if (domElements.introMessage) {
+      domElements.introMessage.style.display = 'none';
+    }
     toggleChat(true);
-    appendBotMessage("Bom dia! Sou o BradeBot, assistente virtual do Bradesco. Como posso te chamar?");
+    appendBotMessage("Oláaaa, tudo bem ? Sou o Caio, assistente virtual do time de pagamentos. Como posso te chamar?");
     conversationState.step = 1;
   }
 }
@@ -62,20 +54,18 @@ function startConversation() {
 function appendBotMessage(msg, options = []) {
   const messageDiv = document.createElement('div');
   messageDiv.className = 'message bot-message';
-  messageDiv.innerHTML = `<strong>BRADEBOT:</strong> ${msg}`;
+  messageDiv.innerHTML = `<strong>CAIO:</strong> ${msg}`;
   
   if (options.length > 0) {
     const optionsContainer = document.createElement('div');
-    optionsContainer.className = 'options-container';
-    
+    optionsContainer.className = 'area-btn-container';
     options.forEach(option => {
       const button = document.createElement('button');
-      button.className = 'option-btn';
+      button.className = 'area-btn';
       button.textContent = option;
       button.onclick = () => selectOption(option);
       optionsContainer.appendChild(button);
     });
-    
     messageDiv.appendChild(optionsContainer);
   }
   
@@ -120,12 +110,10 @@ async function sendMessage() {
       showTypingIndicator();
       setTimeout(() => {
         removeTypingIndicator();
-        appendBotMessage(`Prazer em te conhecer, ${conversationState.userName}! Em qual área do Bradesco você atua?`, 
-          Object.keys(AREA_DESCRIPTIONS));
+        appendBotMessage(`Prazer em te conhecer, ${conversationState.userName}! Em qual área do Bradesco você atua?`, Object.keys(AREA_DESCRIPTIONS));
         conversationState.step = 2;
       }, BOT_DELAY);
       break;
-
     case 3:
       if (!validateCNPJ(text)) {
         appendBotMessage("CNPJ inválido. Por favor, digite os 14 números sem pontos ou traços.");
@@ -139,13 +127,11 @@ async function sendMessage() {
         conversationState.step = 4;
       }, BOT_DELAY);
       break;
-
     case 4:
       conversationState.nota = sanitizeInput(text);
       showTypingIndicator();
       try {
         const response = await fetchNotaFiscal(conversationState.cnpj, conversationState.nota);
-        
         removeTypingIndicator();
         if (response.success) {
           appendBotMessage(`Nota fiscal encontrada:<br>
@@ -163,14 +149,12 @@ async function sendMessage() {
       }
       conversationState.step = 0;
       break;
-
     default:
       appendBotMessage("Vamos começar novamente. Qual seu nome?");
       conversationState.step = 1;
   }
 }
 
-// Funções de utilidade
 function showTypingIndicator() {
   conversationState.isTyping = true;
   const typingDiv = document.createElement('div');
@@ -202,7 +186,7 @@ function sanitizeInput(text) {
 }
 
 function validateCNPJ(cnpj) {
-  cnpj = cnpj.replace(/[^\d]+/g,'');
+  cnpj = cnpj.replace(/[^\d]+/g, '');
   return cnpj.length === 14 && !/^(\d)\1+$/.test(cnpj);
 }
 
@@ -230,7 +214,6 @@ async function fetchNotaFiscal(cnpj, nota) {
 }
 
 function getAuthToken() {
-  // Implementação real viria de um sistema de autenticação seguro
   return localStorage.getItem('bradesco_auth_token') || '';
 }
 
@@ -245,4 +228,13 @@ function loadConversationHistory() {
     domElements.chatMessages.innerHTML = savedChat;
     scrollToBottom();
   }
+}
+
+// Funções mínimas para as ações não implementadas
+function showService(service) {
+  alert("Serviço " + service + " selecionado!");
+}
+
+function quickAction(action) {
+  alert("Ação rápida " + action + " acionada!");
 }
