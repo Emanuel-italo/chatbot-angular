@@ -15,12 +15,17 @@
 
 body {
   font-family: 'Segoe UI', Arial, sans-serif;
-  background: url('BEM VINDOS.png') no-repeat center center fixed;
+  background-color: #f9f9f9; /* cor de fallback */
+  background-image: url('BEMVINDOS.png');
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-attachment: fixed;
   background-size: cover;
   margin: 0;
   padding: 0;
   color: var(--bradesco-dark);
 }
+
 
 
 /* Layout principal */
