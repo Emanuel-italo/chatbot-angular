@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Caio - Assistente de Pagamentos Bradesco</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="desktop-container">
+    <!-- Painel lateral de serviços -->
+    <div class="services-panel">
+      <h2>Serviços Disponíveis</h2>
+      
+      <div class="service-card" onclick="showService('nf')">
+        <h3>Notas Fiscais</h3>
+        <p>Consulta, emissão e histórico completo de NFs</p>
+      </div>
+      
+      <div class="service-card" onclick="showService('pagamentos')">
+        <h3>Status de Pagamentos</h3>
+        <p>Verifique boletos, débitos e liberações</p>
+      </div>
+      
+      <div class="service-card" onclick="showService('fornecedores')">
+        <h3>Fornecedores</h3>
+        <p>Dados cadastrais, contratos e contatos</p>
+      </div>
+      
+      <div class="service-card" onclick="showService('pob')">
+        <h3>POB</h3>
+        <p>Informações sobre processos operacionais</p>
+      </div>
+      
+      <div class="service-card" onclick="showService('ptb')">
+        <h3>PTB</h3>
+        <p>Documentação técnica e procedimentos</p>
+      </div>
+    </div>
+    
+    <!-- Área principal -->
+    <div class="main-content">
+      <div class="profile-header">
+        <img src="imagem.principal.jpeg" alt="Caio - Assistente Bradesco" class="profile-image">
+        <div class="profile-info">
+          <h1>Caio</h1>
+          <p>Assistente Virtual de Pagamentos</p>
+          <p>Bradesco Corporativo</p>
+        </div>
+      </div>
+      
+      <div class="quick-actions">
+        <button class="quick-action-btn" onclick="quickAction('nf')">Nota Fiscal Urgente</button>
+        <button class="quick-action-btn" onclick="quickAction('pagamento')">Verificar Pagamento</button>
+        <button class="quick-action-btn" onclick="quickAction('fornecedor')">Cadastrar Fornecedor</button>
+      </div>
+      
+      <div class="chat-container">
+        <div id="chatHeader" class="sr-only">Chat de atendimento Bradesco</div>
+        <div class="chat-header">
+          Assistente Virtual - Bradesco
+          <span onclick="toggleChat(false)" style="cursor:pointer" aria-label="Fechar chat">&times;</span>
+        </div>
+        <div class="chat-messages" id="chatMessages">
+          <!-- Mensagem do BRADBOT com os botões modernos em layout vertical -->
+          <div class="message bot-message">
+            <strong>BRADEBOT:</strong> Prazer em te conhecer, Emanuel! Em qual área do Bradesco você atua?<br>
+            <div class="area-btn-container">
+              <button class="area-btn">Recrutamento e Seleção</button>
+              <button class="area-btn">Unibrad</button>
+              <button class="area-btn">Programas Especiais</button>
+              <button class="area-btn">RH</button>
+            </div>
+          </div>
+        </div>
+        <div class="chat-input">
+          <input type="text" id="userInput" placeholder="Digite sua mensagem..." aria-label="Campo de mensagem"
+                 onkeydown="if(event.key === 'Enter') sendMessage()">
+          <button onclick="sendMessage()" aria-label="Enviar mensagem">Enviar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
+
