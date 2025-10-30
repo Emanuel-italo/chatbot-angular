@@ -2,10 +2,10 @@
 const BOT_DELAY = 800; // Tempo de resposta simulada
 let atendimentoIniciado = false; // Controle do início do atendimento
 const AREA_DESCRIPTIONS = {
-  "Recrutamento e Seleção": "Essa área é vital para atrair e selecionar os melhores talentos para o Bradesco...",
+  "Recrutamento e Seleção": "Essa área é vital para atrair e selecionar os melhores talentos ...",
   "Unibrad": "A Unibrad é responsável pelo desenvolvimento educacional e capacitação dos nossos colaboradores...",
   "Financeiro": "Setor responsável pela gestão de pagamentos e controle de notas fiscais...",
-  "RH": "Área de Gestão de Pessoas do Banco Bradesco..."
+  "RH": "Área de Gestão de Pessoas..."
 };
 
 // Estado da conversa
@@ -27,17 +27,77 @@ const domElements = {
   chatTrigger: document.getElementById('chatBtn')
 };
 
-document.addEventListener('DOMContentLoaded', () => {
-  loadConversationHistory();
+document.addEventListener("DOMContentLoaded", () => {
+  let progress = 0;
+  const loadingText = document.getElementById("loadingText");
+  const progressFill = document.getElementById("progressFill");
+  const progressGlow = document.getElementById("progressGlow");
+
+  const interval = setInterval(() => {
+    progress += 10;
+    progressFill.style.width = `${progress}%`;
+    progressGlow.style.left = `${progress}%`;
+    loadingText.textContent = `Carregando... ${progress}%`;
+
+    if (progress >= 100) {
+      clearInterval(interval);
+      loadingText.textContent = "✅ ESTA PRONTO PARA FALAR COM O CAIO? BEM-VINDO";
+      setTimeout(() => {
+        gsap.to("#loadingScreen", { opacity: 0, duration: 1, onComplete: () => {
+          document.getElementById("loadingScreen").style.display = "none";
+        }});
+      }, 1000);
+    }
+  }, 300);
 });
 
-// Exibe ou oculta o chat
+
 function toggleChat(show) {
-  if (!atendimentoIniciado && show) return;
-  domElements.chatBox.style.display = show ? 'flex' : 'none';
-  domElements.chatTrigger.style.display = show ? 'none' : 'flex';
-  if (show) domElements.userInput.focus();
+  // Se desejar ignorar a condição para permitir a abertura quando o atendimento ainda não estiver iniciado, remova a linha abaixo:
+  // if (!atendimentoIniciado && show) return;
+
+  if (show) {
+    // Exibe o chat
+    domElements.chatBox.style.display = 'flex';
+
+    // Animação de entrada com GSAP inspirada no moncy.dev
+    gsap.fromTo(
+      domElements.chatBox,
+      {
+        opacity: 0,
+        scale: 0.3,
+        rotationX: -90,
+        transformPerspective: 600
+      },
+      {
+        opacity: 1,
+        scale: 1,
+        rotationX: 0,
+        duration: 1,
+        ease: "power4.out"
+      }
+    );
+
+    // Oculta o botão e foca no input
+    domElements.chatTrigger.style.display = 'none';
+    domElements.userInput.focus();
+  } else {
+    // Animação de saída (opcional)
+    gsap.to(domElements.chatBox, {
+      opacity: 0,
+      scale: 0.3,
+      rotationX: -90,
+      duration: 0.6,
+      ease: "power4.in",
+      onComplete: () => {
+        domElements.chatBox.style.display = 'none';
+        domElements.chatTrigger.style.display = 'flex';
+      }
+    });
+  }
 }
+
+
 
 function startConversation() {
   if (!atendimentoIniciado) {
@@ -91,11 +151,13 @@ function selectOption(option) {
   showTypingIndicator();
   setTimeout(() => {
     removeTypingIndicator();
-    const description = AREA_DESCRIPTIONS[option] || "Área de atuação no Banco Bradesco.";
-    appendBotMessage(`Ótima escolha, ${conversationState.userName}!<div class="area-description">${description}</div>Por favor, informe o CNPJ do fornecedor (apenas números):`);
+    const description = AREA_DESCRIPTIONS[option] || "Área de atuação.";
+    // Removido o uso de conversationState.userName na mensagem
+    appendBotMessage(`Ótima escolha!<div class="area-description">${description}</div>Por favor, o numero da nota (apenas números):`);
     conversationState.step = 3;
   }, BOT_DELAY);
 }
+
 
 async function sendMessage() {
   const text = domElements.userInput.value.trim();
@@ -110,15 +172,16 @@ async function sendMessage() {
       showTypingIndicator();
       setTimeout(() => {
         removeTypingIndicator();
-        appendBotMessage(`Prazer em te conhecer, ${conversationState.userName}! Em qual área do Bradesco você atua?`, Object.keys(AREA_DESCRIPTIONS));
+        appendBotMessage(`Prazer em te conhecer, ${conversationState.userName}! Em qual área você atua?`, Object.keys(AREA_DESCRIPTIONS));
         conversationState.step = 2;
       }, BOT_DELAY);
       break;
     case 3:
-      if (!validateCNPJ(text)) {
-        appendBotMessage("CNPJ inválido. Por favor, digite os 14 números sem pontos ou traços.");
-        return;
-      }
+      // Removida a verificação do CNPJ:
+      // if (!validateCNPJ(text)) {
+      //   appendBotMessage("CNPJ inválido. Por favor, digite os 14 números sem pontos ou traços.");
+      //   return;
+      // }
       conversationState.cnpj = text;
       showTypingIndicator();
       setTimeout(() => {

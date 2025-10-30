@@ -3,10 +3,25 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Caio - Assistente de Pagamentos Bradesco</title>
+    <title>Caio - Assistente Virtual</title>
     <link rel="stylesheet" href="style.css" />
+    <!-- Carrega a biblioteca GSAP via CDN antes do seu script principal -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js"></script>
   </head>
   <body>
+    <!-- Tela de carregamento -->
+    <div id="loadingScreen">
+      <img src="novafoto.png" alt="Caio" id="loadingLogo">
+      <div class="loading-content">
+        <p id="loadingText">Carregando... 0%</p>
+        <div class="progress-bar">
+          <div id="progressFill">
+            <span id="progressGlow"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+    
     <div class="desktop-container">
       <!-- Painel lateral de serviços -->
       <aside class="services-panel">
@@ -23,57 +38,33 @@
           <h3>Fornecedores</h3>
           <p>Dados cadastrais, contratos e contatos</p>
         </div>
-        <div class="service-card" onclick="showService('pob')">
-          <h3>POB</h3>
-          <p>Informações sobre processos operacionais</p>
+        <div class="service-card" onclick="showService('IFSP')">
+          <h3>IFSP</h3>
+          <p>Informações sobre nossos processos</p>
         </div>
         <div class="service-card" onclick="showService('ptb')">
-          <h3>PTB</h3>
-          <p>Documentação técnica e procedimentos</p>
+          <h3>DWL</h3>
+          <p>Downloads relatório de pagamento</p>
         </div>
       </aside>
 
       <!-- Área principal do atendimento -->
       <main class="main-content">
         <header class="profile-header">
-          <img src="imagem.principal.jpeg" alt="Caio - Assistente Bradesco" class="profile-image" />
+          <img src="imagem.principal.jpeg" alt="Caio - Assistente virtual" class="profile-image" />
           <div class="profile-info">
             <h1>Caio</h1>
             <p>Assistente Virtual de Pagamentos</p>
-            <p>Bradesco Corporativo</p>
           </div>
         </header>
-
-        <!-- Ações rápidas -->
-        <section class="quick-actions">
-          <button class="quick-action-btn" onclick="quickAction('nf')">Nota Fiscal Urgente</button>
-          <button class="quick-action-btn" onclick="quickAction('pagamento')">Verificar Pagamento</button>
-          <button class="quick-action-btn" onclick="quickAction('fornecedor')">Cadastrar Fornecedor</button>
-        </section>
-
-        <!-- Chat -->
         <section id="chatContainer" class="chat-container">
-          <!-- Botão para disparar o chat -->
           <button id="chatBtn" class="chat-trigger-btn" onclick="startConversation()">Iniciar<br /></button>
-          
-          <!-- Caixa de Chat (inicialmente oculta) -->
           <div id="chatBox" class="chat-box" style="display: none;">
             <div class="chat-header">
-              Assistente Virtual - Bradesco
+              Assistente Virtual
               <span class="close-btn" onclick="toggleChat(false)" aria-label="Fechar chat">&times;</span>
             </div>
-            <div id="chatMessages" class="chat-messages">
-              <!-- Mensagem inicial do Bradebot com as opções já integradas -->
-              <div class="message bot-message">
-                <strong>Caio:</strong> Prazer em te conhecer,  Em qual área do Bradesco você atua?
-                <div class="area-btn-container">
-                  <button class="area-btn" onclick="selectOption('Recrutamento e Seleção')">Recrutamento e Seleção</button>
-                  <button class="area-btn" onclick="selectOption('Unibrad')">Unibrad</button>
-                  <button class="area-btn" onclick="selectOption('Financeiro')">Financeiro</button>
-                  <button class="area-btn" onclick="selectOption('RH')">RH</button>
-                </div>
-              </div>
-            </div>
+            <div id="chatMessages" class="chat-messages"></div>
             <div class="chat-input">
               <input type="text" id="userInput" placeholder="Digite sua mensagem..." aria-label="Campo de mensagem" onkeydown="if(event.key === 'Enter') sendMessage()" />
               <button onclick="sendMessage()" aria-label="Enviar mensagem">Enviar</button>
@@ -82,7 +73,8 @@
         </section>
       </main>
     </div>
+
+    <!-- Carrega o script principal (após carregar o GSAP) -->
     <script src="script.js"></script>
   </body>
 </html>
-
