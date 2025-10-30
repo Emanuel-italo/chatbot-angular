@@ -1,0 +1,54 @@
+<section id="chatContainer" class="chat-container">
+  
+  <button 
+    id="chatBtn" 
+    class="chat-trigger-btn" 
+    *ngIf="!isChatOpen" 
+    (click)="startConversation()">
+    Iniciar<br />
+  </button>
+
+  <div id="chatBox" class="chat-box" *ngIf="isChatOpen" style="display: flex;">
+    <div class="chat-header">
+      Assistente Virtual
+      <span class="close-btn" (click)="toggleChat(false)" aria-label="Fechar chat">&times;</span>
+    </div>
+
+    <div id="chatMessages" class="chat-messages" #chatMessagesContainer>
+      
+      <div *ngFor="let msg of messages" 
+           class="message" 
+           [ngClass]="{'user-message': msg.type === 'user', 'bot-message': msg.type === 'bot'}">
+        
+        <strong>{{ msg.type === 'user' ? 'VOCÊ' : 'CAIO' }}:</strong>
+        <span [innerHTML]="msg.text"></span>
+
+        <div *ngIf="msg.options && msg.options.length > 0" class="area-btn-container">
+          <button *ngFor="let option of msg.options" 
+                  class="area-btn" 
+                  (click)="selectOption(option)">
+            {{ option }}
+          </button>
+        </div>
+      </div>
+
+      <div *ngIf="isTyping" class="typing-indicator" id="typingIndicator">
+        <span class="typing-dot"></span>
+        <span class="typing-dot"></span>
+        <span class="typing-dot"></span>
+      </div>
+    </div>
+
+    <div class="chat-input">
+      <input 
+        type="text" 
+        id="userInput" 
+        placeholder="Digite sua mensagem..." 
+        aria-label="Campo de mensagem"
+        [(ngModel)]="userInput"
+        (keydown.enter)="sendMessage()" />
+      
+      <button (click)="sendMessage()" aria-label="Enviar mensagem">Enviar</button>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,44 @@
+<app-loading-screen 
+  *ngIf="isLoading" 
+  (onLoadingComplete)="onLoadingComplete()">
+</app-loading-screen>
+
+<div *ngIf="!isLoading" class="desktop-container">
+  
+  <aside class="services-panel">
+    <h2>Serviços Disponíveis</h2>
+    <div class="service-card" (click)="showService('nf')">
+      <h3>Notas Fiscais</h3>
+      <p>Consulta, emissão e histórico completo de NFs</p>
+    </div>
+    <div class="service-card" (click)="showService('pagamentos')">
+      <h3>Status de Pagamentos</h3>
+      <p>Verifique boletos, débitos e liberações</p>
+    </div>
+    <div class="service-card" (click)="showService('fornecedores')">
+      <h3>Fornecedores</h3>
+      <p>Dados cadastrais, contratos e contatos</p>
+    </div>
+    <div class="service-card" (click)="showService('IFSP')">
+      <h3>IFSP</h3>
+      <p>Informações sobre nossos processos</p>
+    </div>
+    <div class="service-card" (click)="showService('ptb')">
+      <h3>DWL</h3>
+      <p>Downloads relatório de pagamento</p>
+    </div>
+  </aside>
+
+  <main class="main-content">
+    <header class="profile-header">
+      <img src="assets/imagem.principal.jpeg" alt="Caio - Assistente virtual" class="profile-image" />
+      <div class="profile-info">
+        <h1>Caio</h1>
+        <p>Assistente Virtual de Pagamentos</p>
+      </div>
+    </header>
+    
+    <app-chat></app-chat>
+
+  </main>
+</div>

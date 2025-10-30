@@ -1,0 +1,56 @@
+import { Component, OnInit, OnDestroy, Output, EventEmitter } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { gsap } from 'gsap'; // Importe o GSAP
+
+@Component({
+  selector: 'app-loading-screen',
+  standalone: true,
+  imports: [CommonModule],
+  templateUrl: './loading-screen.component.html',
+  styleUrls: ['./loading-screen.component.css']
+})
+export class LoadingScreenComponent implements OnInit, OnDestroy {
+  // @Output é como o Angular "emite" um evento para o componente pai
+  @Output() onLoadingComplete = new EventEmitter<void>();
+
+  progress = 0;
+  loadingText = "Carregando... 0%";
+  private intervalId: any;
+
+  ngOnInit(): void {
+    // ngOnInit é o hook de ciclo de vida do Angular, similar ao DOMContentLoaded
+    const progressFill = document.getElementById("progressFill");
+    const progressGlow = document.getElementById("progressGlow");
+
+    this.intervalId = setInterval(() => {
+      this.progress += 10;
+      
+      if (progressFill) progressFill.style.width = `${this.progress}%`;
+      if (progressGlow) progressGlow.style.left = `${this.progress}%`;
+      this.loadingText = `Carregando... ${this.progress}%`;
+
+      if (this.progress >= 100) {
+        clearInterval(this.intervalId);
+        this.loadingText = "✅ ESTA PRONTO PARA FALAR COM O CAIO? BEM-VINDO";
+        setTimeout(() => {
+          // Animação de saída com GSAP
+          gsap.to("#loadingScreen", { 
+            opacity: 0, 
+            duration: 1, 
+            onComplete: () => {
+              // Emite o evento para o AppComponent saber que terminou
+              this.onLoadingComplete.emit(); 
+            }
+          });
+        }, 1000);
+      }
+    }, 300);
+  }
+
+  ngOnDestroy(): void {
+    // Garante que o intervalo seja limpo se o componente for destruído
+    if (this.intervalId) {
+      clearInterval(this.intervalId);
+    }
+  }
+}
